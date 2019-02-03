@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quick Select UI</title>
+	<meta charset="utf-8">
+	<script
+			  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+			  crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<style type="text/css">
+	body {
+		display: flex
+	}
+		#current-item {
+			flex: 1;
+			height: 100vh;
+			padding-top: 10%;
+			text-align: center;
+			font-size: 20vh;
+			background-color: #eee;
+		}
+		* { box-sizing: border-box; }
+	</style>
+</head>
+<body style="height:100%;width=100%">
+
+	<div id="current-item">
+		Paste your list
+	</div>
+	<div id="help">
+		HELPTEXT
+	</div>
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+
+
+    	var $editor    = $('body');
+
+    if(!document.execCommand('StyleWithCSS', false, false)) {
+        document.execCommand('UseCSS', false, true);
+    }
+
+    $editor.on('paste', function(e) {
+    	window.current = 0;
+        var list = e.originalEvent.clipboardData.getData('text');
+
+        // TODO: Update the helptext
+        window.items = list.split("\n");
+        window.selected = [];
+    	$('#current-item').html(window.items[window.current]);
+     });
+
+    $editor.on('keydown', function(e) {
+
+    	switch(e.keyCode) {
+    		// Select it
+    		case 39:
+	    		window.selected.push(window.items[window.current]);
+				window.current++;
+				$('#current-item').html(window.items[window.current]);
+    			break;
+    		// Don't select it
+    		case 37:
+	    		window.current++;
+	    		$('#current-item').html(window.items[window.current]);
+    			break;
+    		case 32:
+    			navigator.clipboard.writeText(window.selected.join("\n")).then(function() {
+				    alert('Copied selected items to your keyboard');
+				  }, function(err) {
+				    alert('Async: Could not copy text: ', err);
+				  });
+    			break;
+    		default:
+    			break;
+    	}
+	});
+});
+</script>
+</body>
+</html>
