@@ -44,11 +44,17 @@
 		<div id="count"></div>
 	</div>
 <script type="text/javascript">
+	// Attribution: https://codepen.io/aknip/pen/GpGevp
+	var flexFont = function () {
+    var div= document.getElementById("current-item");
+        var relFontsize = div.offsetWidth*0.05;
+        div.style.fontSize = relFontsize+'px';
+};
 	
 	$(document).ready(function() {
 
 
-    	var $editor    = $('body');
+    	var $editor = $('body');
 
     if(!document.execCommand('StyleWithCSS', false, false)) {
         document.execCommand('UseCSS', false, true);
@@ -90,6 +96,7 @@
     		default:
     			break;
     	}
+    	flexFont();
 	});
 });
 </script>
