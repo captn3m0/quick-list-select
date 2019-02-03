@@ -44,6 +44,24 @@
 		<div id="count"></div>
 	</div>
 <script type="text/javascript">
+
+// Attribution: https://stackoverflow.com/a/12034334
+	var entityMap = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+  '/': '&#x2F;',
+  '`': '&#x60;',
+  '=': '&#x3D;'
+};
+
+function escapeHtml (string) {
+  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
 	// Attribution: https://codepen.io/aknip/pen/GpGevp
 	var flexFont = function () {
     var div= document.getElementById("current-item");
@@ -67,7 +85,7 @@
         // TODO: Update the helptext
         window.items = list.split("\n");
         window.selected = [];
-    	$('#current-item').html(window.items[window.current]);
+    	$('#current-item').html(escapeHtml(window.items[window.current]));
      });
 
     $editor.on('keydown', function(e) {
@@ -77,13 +95,13 @@
     		case 39:
 	    		window.selected.push(window.items[window.current]);
 				window.current++;
-				$('#current-item').html(window.items[window.current]);
+				$('#current-item').html(escapeHtml(window.items[window.current]));
 				$('#count').html(`${window.selected.length} Selected | At ${window.current}/ ${window.items.length}`);
     			break;
     		// Don't select it
     		case 37:
 	    		window.current++;
-	    		$('#current-item').html(window.items[window.current]);
+	    		$('#current-item').html(escapeHtml(window.items[window.current]));
 	    		$('#count').html(`${window.selected.length} Selected | At ${window.current}/ ${window.items.length}`);
     			break;
     		case 32:
