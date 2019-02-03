@@ -12,14 +12,22 @@
 	<style type="text/css">
 	body {
 		display: flex
+		flex-direction: column;
 	}
 		#current-item {
 			flex: 1;
-			height: 100vh;
+			height: 80vh;
+			flex-direction: column;
 			padding-top: 10%;
 			text-align: center;
 			font-size: 20vh;
 			background-color: #eee;
+		}
+		#help {
+			font-size: 2vh;
+			text-align: center;
+			flex: 1;
+			height: 9vh;
 		}
 		* { box-sizing: border-box; }
 	</style>
@@ -30,7 +38,10 @@
 		Paste your list
 	</div>
 	<div id="help">
-		HELPTEXT
+		<p>⬅️ is No</p>
+		<p>➡️ is Yes</p>
+		<p>space is Copy</p>
+		<div id="count"></div>
 	</div>
 <script type="text/javascript">
 	
@@ -61,15 +72,17 @@
 	    		window.selected.push(window.items[window.current]);
 				window.current++;
 				$('#current-item').html(window.items[window.current]);
+				$('#count').html(`${window.selected.length} Selected | At ${window.current}/ ${window.items.length}`);
     			break;
     		// Don't select it
     		case 37:
 	    		window.current++;
 	    		$('#current-item').html(window.items[window.current]);
+	    		$('#count').html(`${window.selected.length} Selected | At ${window.current}/ ${window.items.length}`);
     			break;
     		case 32:
     			navigator.clipboard.writeText(window.selected.join("\n")).then(function() {
-				    alert('Copied selected items to your keyboard');
+				    $('#count').html('Copied selected items ('+window.select.length+') to your keyboard');
 				  }, function(err) {
 				    alert('Async: Could not copy text: ', err);
 				  });
